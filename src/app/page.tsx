@@ -1,5 +1,10 @@
+import { AppShell } from "@/components/layout/app-shell";
 import { HomeHero } from "@/features/home/home-hero";
 
 export default function Home() {
-  return <HomeHero />;
+  return (
+    <AppShell>
+      <HomeHero />
+    </AppShell>
+  );
 }

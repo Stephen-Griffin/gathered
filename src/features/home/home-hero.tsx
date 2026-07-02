@@ -22,7 +22,7 @@ export function HomeHero() {
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <a
             className="rounded-full bg-foreground px-6 py-3 text-center text-sm font-semibold text-background shadow-lg shadow-amber-900/10 transition hover:-translate-y-0.5"
-            href="#getting-started"
+            href="/recipes"
           >
             Start planning
           </a>
