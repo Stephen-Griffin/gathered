@@ -8,6 +8,8 @@
     "start": "next start",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "db:reset": "dev-db reset && dev-db init && bun run db:migrate",
+    "db:seed": "bun run scripts/db/seed.ts",
     "db:studio": "drizzle-kit studio",
     "lint": "eslint .",
     "format": "prettier --write .",

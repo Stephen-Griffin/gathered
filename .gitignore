@@ -23,6 +23,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# local postgres
+/.postgres/
+
 # env files
 .env
 .env.*
