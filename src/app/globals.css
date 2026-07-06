@@ -1,11 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fffaf0;
-  --foreground: #201a13;
-  --muted: #6f6258;
-  --card: #ffffff;
-  --accent: #d97706;
+  --background: #ffffff;
+  --foreground: #000000;
+  --muted: #000000;
+  --card: #d1d1d1;
+  --accent: #352208;
+  --secondary: #74776b;
+  --line: #d1d1d1;
+  --paper: #d1d1d1;
 }
 
 @theme inline {
@@ -14,8 +17,9 @@
   --color-muted: var(--muted);
   --color-card: var(--card);
   --color-accent: var(--accent);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-secondary: var(--secondary);
+  --color-line: var(--line);
+  --color-paper: var(--paper);
 }
 
 * {
@@ -25,18 +29,23 @@
 body {
   min-height: 100vh;
   margin: 0;
-  background:
-    radial-gradient(
-      circle at top left,
-      rgb(251 191 36 / 0.24),
-      transparent 30rem
-    ),
-    linear-gradient(135deg, #fffaf0 0%, #f7efe3 50%, #fef3c7 100%);
+  background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-space-grotesk), Arial, Helvetica, sans-serif;
+  text-rendering: geometricPrecision;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid #352208;
+  outline-offset: 3px;
 }

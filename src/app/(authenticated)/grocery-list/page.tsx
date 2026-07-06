@@ -1,16 +1,20 @@
 export default function GroceryListPage() {
   return (
-    <section className="w-full rounded-[2rem] border border-amber-900/10 bg-card/80 p-8 shadow-xl shadow-amber-900/5">
-      <p className="text-sm font-semibold uppercase tracking-[0.3em] text-accent">
-        Grocery List
-      </p>
-      <h1 className="mt-4 text-4xl font-bold tracking-tight">
-        Grocery list placeholder
-      </h1>
-      <p className="mt-4 max-w-2xl text-lg leading-8 text-muted">
-        Planned recipes will eventually roll up into a practical shopping list
-        that can be checked off or exported.
-      </p>
+    <section className="flex min-h-[420px] w-full items-center justify-center text-center">
+      <div className="max-w-md rounded-[28px] border border-line bg-card px-8 py-10 shadow-[0_22px_70px_rgba(0,0,0,0.08)]">
+        <h1 className="text-[28px] font-bold leading-tight tracking-[-0.05em] text-black">
+          It seems like there are no groceries in your cart.
+        </h1>
+        <p className="mt-4 text-[15px] font-medium text-black">
+          Let&apos;s fix that.
+        </p>
+        <a
+          href="/recipes"
+          className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-accent px-6 text-[12px] font-bold uppercase tracking-[0.08em] text-white transition hover:-translate-y-0.5 hover:bg-secondary"
+        >
+          Add groceries
+        </a>
+      </div>
     </section>
   );
 }
