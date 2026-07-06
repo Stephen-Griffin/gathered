@@ -10,7 +10,7 @@ export default function MealPlanPage() {
         </p>
         <a
           href="/recipes"
-          className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-accent px-6 text-[12px] font-bold uppercase tracking-[0.08em] text-white transition hover:-translate-y-0.5 hover:bg-secondary"
+          className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-[#75776b] px-6 text-[12px] font-bold uppercase tracking-[0.08em] text-white transition hover:-translate-y-0.5 hover:bg-[#686a60]"
         >
           Make a plan
         </a>
