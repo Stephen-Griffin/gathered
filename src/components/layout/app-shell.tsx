@@ -11,6 +11,7 @@ const signedOutNavigation = [
   { href: "/", label: "Home" },
   { href: "/recipes", label: "Recipes" },
   { href: "/grocery-list", label: "Grocery List" },
+  { href: "/pantry", label: "Pantry" },
   { href: "/meal-plan", label: "Meal Plan" },
   { href: "/settings", label: "Settings" },
 ];
@@ -19,6 +20,7 @@ const signedInNavigation = [
   { href: "/", label: "Home" },
   { href: "/recipes", label: "Recipes" },
   { href: "/grocery-list", label: "Grocery List" },
+  { href: "/pantry", label: "Pantry" },
   { href: "/meal-plan", label: "Meal Plan" },
   { href: "/settings", label: "Settings" },
 ];
