@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: gathered
+      POSTGRES_USER: gathered
+      POSTGRES_PASSWORD: gathered
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:

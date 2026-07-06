@@ -6,6 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -13,15 +16,19 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^7.5.12",
+    "drizzle-orm": "^0.45.2",
     "next": "latest",
+    "postgres": "^3.4.9",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9.39.4",
     "eslint-config-next": "latest",
     "prettier": "latest",
