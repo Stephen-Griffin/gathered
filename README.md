@@ -5,6 +5,7 @@ Initial Next.js foundation for Gathered, built with TypeScript, Tailwind CSS, ES
 ## Requirements
 
 - [Bun](https://bun.sh/)
+- [Docker](https://www.docker.com/)
 - [Nix](https://nixos.org/download.html)
 - [direnv](https://direnv.net/) with the shell hook enabled
 
@@ -19,6 +20,31 @@ bun dev
 Open `http://localhost:3000` to view the app.
 
 When you `cd` into this directory, direnv loads the Nix development shell and `.env` values automatically.
+
+## Database
+
+Gathered uses PostgreSQL with [Drizzle ORM](https://orm.drizzle.team/) for server-side persistence. Start the local database with Docker, then run migrations before starting the app:
+
+```bash
+docker compose up -d postgres
+bun run db:migrate
+bun dev
+```
+
+Add this local connection string to `.env`:
+
+```bash
+DATABASE_URL=postgres://gathered:gathered@localhost:5432/gathered
+```
+
+You can verify the app can connect locally by visiting `http://localhost:3000/api/health/db` after the dev server is running.
+
+Database code lives in `src/db` and imports `server-only` so the Postgres client cannot be bundled into client-side code. Schema changes should be made in `src/db/schema.ts`, then committed with generated migrations:
+
+```bash
+bun run db:generate
+bun run db:migrate
+```
 
 ## Authentication
 
@@ -38,6 +64,9 @@ Authenticated routes currently live at `/recipes`, `/meal-plan`, `/grocery-list`
 - `bun dev` starts the local development server.
 - `bun run build` creates a production build.
 - `bun run start` serves the production build.
+- `bun run db:generate` generates Drizzle migrations from schema changes.
+- `bun run db:migrate` applies Drizzle migrations to `DATABASE_URL`.
+- `bun run db:studio` opens Drizzle Studio for the configured database.
 - `bun run lint` runs ESLint.
 - `bun run format` formats files with Prettier.
 - `bun run format:check` checks formatting.
