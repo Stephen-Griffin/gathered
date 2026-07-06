@@ -11,14 +11,16 @@ export function HomeHero() {
     <section className="mx-auto grid w-full max-w-6xl items-center gap-12 px-5 py-12 sm:px-7 lg:min-h-[calc(100svh-76px)] lg:grid-cols-[1fr_0.82fr] lg:gap-20 lg:py-0">
       <div className="max-w-[560px]">
         <h1 className="text-[clamp(3rem,8vw,6.6rem)] font-bold leading-[0.86] tracking-[-0.075em] text-black">
-            Gather recipes, plans, and groceries all in one place.
+          Gather recipes, plans, and groceries all in one place.
         </h1>
         <p className="mt-7 max-w-[440px] text-[16px] font-medium leading-7 text-black">
-          Gathered helps households collect favorite recipes, shape weekly menus, and turn plans into grocery lists without wasting a single ingredient.
+          Gathered helps households collect favorite recipes, shape weekly
+          menus, and turn plans into grocery lists without wasting a single
+          ingredient.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <a
-            className="inline-flex h-12 w-fit items-center justify-center rounded-full bg-accent px-6 text-[13px] font-bold uppercase tracking-[0.08em] text-white shadow-[0_18px_32px_rgba(53,34,8,0.24)] transition hover:-translate-y-0.5 hover:bg-secondary"
+            className="inline-flex h-12 w-fit items-center justify-center rounded-full bg-[#74776B] px-6 text-[13px] font-bold uppercase tracking-[0.08em] text-white shadow-[0_18px_32px_rgba(116,119,107,0.24)] transition hover:-translate-y-0.5 hover:bg-[#676a60]"
             href="/recipes"
           >
             Start gathering
