@@ -93,6 +93,7 @@ Authenticated routes currently live at `/recipes`, `/meal-plan`, `/grocery-list`
 - `bun run db:seed` adds filler recipes for `SEED_CLERK_USER_ID` without duplicating existing seed recipe names.
 - `bun run db:studio` opens Drizzle Studio for the configured database.
 - `bun run lint` runs ESLint.
+- `bun run test` runs the Vitest unit test suite.
 - `bun run format` formats files with Prettier.
 - `bun run format:check` checks formatting.
 - `bun run typecheck` runs TypeScript without emitting files.
