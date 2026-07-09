@@ -13,6 +13,7 @@ Initial Next.js foundation for Gathered, built with TypeScript, Tailwind CSS, ES
 ```bash
 direnv allow
 dev-db init
+cp .env.example .env
 bun install
 bun run db:migrate
 bun dev
@@ -20,7 +21,45 @@ bun dev
 
 Open `http://localhost:3000` to view the app.
 
-When you `cd` into this directory, direnv loads the Nix development shell and `.env` values automatically.
+When you `cd` into this directory, direnv loads the Nix development shell and
+`.env` values automatically. Keep real `.env` secrets local and out of git.
+
+## Environment
+
+Local development uses `.env`. Start from the committed example:
+
+```bash
+cp .env.example .env
+```
+
+Required local values:
+
+```bash
+NEXT_TELEMETRY_DISABLED=1
+DATABASE_URL=postgres://localhost:54330/gathered
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=...
+CLERK_SECRET_KEY=...
+SHOPPING_PROVIDER_MODE=links-only
+```
+
+Optional local values:
+
+```bash
+SEED_CLERK_USER_ID=...
+```
+
+Shopping-provider notes:
+
+- Sprint 1 shopping-provider behavior is link-out only.
+- No Target or Amazon retailer credentials are required for the current MVP.
+- `TARGET_SEARCH_BASE_URL` and `AMAZON_SEARCH_BASE_URL` can stay unset unless
+  you need to override the default search URLs locally.
+- Do not add retailer API keys, passwords, browser cookies, private cart tokens,
+  or fake credentials to `.env.example`.
+- Add Amazon or Target credential names only after an approved official program
+  or partner confirms the exact required environment variables.
+- Affiliate settings such as `AMAZON_ASSOCIATES_TAG` should stay unset until
+  program approval and disclosure requirements are ready.
 
 ## Database
 
