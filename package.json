@@ -12,6 +12,7 @@
     "db:seed": "bun run scripts/db/seed.ts",
     "db:studio": "drizzle-kit studio",
     "lint": "eslint .",
+    "test": "vitest run",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit"
@@ -35,7 +36,8 @@
     "eslint-config-next": "latest",
     "prettier": "latest",
     "tailwindcss": "latest",
-    "typescript": "latest"
+    "typescript": "latest",
+    "vitest": "^4.1.10"
   },
   "trustedDependencies": [
     "sharp",
