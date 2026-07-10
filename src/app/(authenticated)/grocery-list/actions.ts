@@ -10,6 +10,7 @@ import {
   getRemainingIngredientQuantity,
   normalizeIngredientName,
 } from "@/features/grocery/ingredient-matching";
+import { groupSimilarShoppingItems } from "@/features/grocery/shopping-item-matching";
 import {
   getDefaultIngredientUnit,
   ingredientUnits,
@@ -85,20 +86,29 @@ export async function addRecipeIngredientsToGroceryList(formData: FormData) {
     .filter((ingredient) => ingredient.normalizedName.length > 0)
     .filter((ingredient) => ingredient.quantity > 0);
 
-  const uniqueGroceryItems = Array.from(
-    new Map(
-      groceryItemsToAdd.map((item) => [item.normalizedName, item]),
-    ).values(),
+  const groupedGroceryItems = groupSimilarShoppingItems(
+    groceryItemsToAdd.map((item, index) => ({
+      id: `${recipe.id}:${index}`,
+      name: item.name,
+      normalizedName: item.normalizedName,
+      quantity: item.quantity,
+      unit: item.unit,
+      kind: "grocery" as const,
+      providerId: "target",
+    })),
   );
 
-  if (uniqueGroceryItems.length > 0) {
+  if (groupedGroceryItems.length > 0) {
     await getDb()
       .insert(groceryListItems)
       .values(
-        uniqueGroceryItems.map((item) => ({
+        groupedGroceryItems.map((item) => ({
           userId,
           sourceRecipeId: recipe.id,
-          ...item,
+          name: item.name,
+          normalizedName: item.normalizedName,
+          quantity: item.quantity,
+          unit: item.unit,
         })),
       )
       .onConflictDoUpdate({
