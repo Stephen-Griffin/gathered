@@ -5,57 +5,22 @@ import { redirect } from "next/navigation";
 import { getDb } from "@/db/client";
 import { recipes } from "@/db/schema";
 import { formatIngredientAmount } from "@/features/grocery/ingredient-measurements";
+import {
+  filterRecipesBySearchQuery,
+  getRecipeSearchQuery,
+} from "@/features/recipes/recipe-search";
 import { addRecipeIngredientsToGroceryList } from "../grocery-list/actions";
 
-export default async function RecipesPage() {
-  const { userId } = await auth();
+type RecipesPageProps = Readonly<{
+  searchParams?: Promise<{
+    q?: string | string[];
+  }>;
+}>;
 
-  if (!userId) {
-    redirect("/");
-  }
-
-  const userRecipes = await getDb().query.recipes.findMany({
-    where: eq(recipes.userId, userId),
-    orderBy: asc(recipes.name),
-  });
-
-  if (userRecipes.length === 0) {
-    return (
-      <section className="w-full">
-        <div className="mx-auto mb-7 flex max-w-[820px] items-start justify-between gap-4">
-          <div>
-            <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-accent">
-              Recipe box
-            </p>
-            <h1 className="mt-2 text-[34px] font-bold leading-none tracking-[-0.06em] text-black sm:text-[44px]">
-              Recipes
-            </h1>
-          </div>
-          <Link
-            href="/recipes/new"
-            className="inline-flex size-12 items-center justify-center rounded-full bg-[#74776B] text-[26px] font-bold leading-none text-white shadow-[0_14px_28px_rgba(116,119,107,0.24)] transition hover:-translate-y-0.5 hover:bg-[#676a60]"
-            aria-label="Create recipe"
-          >
-            +
-          </Link>
-        </div>
-        <div className="mx-auto flex min-h-[420px] max-w-md items-center justify-center rounded-[28px] border border-line bg-card px-8 py-10 text-center shadow-[0_22px_70px_rgba(0,0,0,0.08)]">
-          <div>
-            <h1 className="text-[28px] font-bold leading-tight tracking-[-0.05em] text-black">
-              No recipes gathered yet.
-            </h1>
-            <p className="mt-4 text-[15px] font-medium text-black">
-              Add your favorite meals to start building plans and grocery lists.
-            </p>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
+function RecipesHeader({ query }: Readonly<{ query: string }>) {
   return (
-    <section className="w-full">
-      <div className="mx-auto mb-7 flex max-w-[820px] items-start justify-between gap-4">
+    <div className="mx-auto mb-7 max-w-[820px]">
+      <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-accent">
             Recipe box
@@ -72,8 +37,96 @@ export default async function RecipesPage() {
           +
         </Link>
       </div>
+
+      <form
+        action="/recipes"
+        className="mt-6 grid gap-3 rounded-[24px] border border-line bg-card p-4 shadow-[0_18px_50px_rgba(0,0,0,0.07)] sm:grid-cols-[1fr_auto_auto]"
+      >
+        <label className="sr-only" htmlFor="recipe-search">
+          Search recipes
+        </label>
+        <input
+          id="recipe-search"
+          name="q"
+          type="search"
+          defaultValue={query}
+          placeholder="Search by recipe or ingredient"
+          className="h-12 rounded-full border border-line bg-white px-5 text-[14px] font-semibold text-black outline-none transition placeholder:text-black/40 focus:border-[#74776B]"
+        />
+        <button className="h-12 rounded-full bg-[#74776B] px-6 text-[12px] font-bold uppercase tracking-[0.08em] text-white transition hover:-translate-y-0.5 hover:bg-[#676a60]">
+          Search
+        </button>
+        {query ? (
+          <Link
+            href="/recipes"
+            className="inline-flex h-12 items-center justify-center rounded-full border border-line bg-white px-6 text-[12px] font-bold uppercase tracking-[0.08em] text-black transition hover:-translate-y-0.5"
+          >
+            Clear
+          </Link>
+        ) : null}
+      </form>
+    </div>
+  );
+}
+
+export default async function RecipesPage({ searchParams }: RecipesPageProps) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect("/");
+  }
+
+  const resolvedSearchParams = await searchParams;
+  const query = getRecipeSearchQuery(resolvedSearchParams?.q);
+
+  const userRecipes = await getDb().query.recipes.findMany({
+    where: eq(recipes.userId, userId),
+    orderBy: asc(recipes.name),
+  });
+  const visibleRecipes = filterRecipesBySearchQuery(userRecipes, query);
+
+  if (userRecipes.length === 0) {
+    return (
+      <section className="w-full">
+        <RecipesHeader query={query} />
+        <div className="mx-auto flex min-h-[420px] max-w-md items-center justify-center rounded-[28px] border border-line bg-card px-8 py-10 text-center shadow-[0_22px_70px_rgba(0,0,0,0.08)]">
+          <div>
+            <h1 className="text-[28px] font-bold leading-tight tracking-[-0.05em] text-black">
+              No recipes gathered yet.
+            </h1>
+            <p className="mt-4 text-[15px] font-medium text-black">
+              Add your favorite meals to start building plans and grocery lists.
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (visibleRecipes.length === 0) {
+    return (
+      <section className="w-full">
+        <RecipesHeader query={query} />
+        <div className="mx-auto flex min-h-[320px] max-w-md items-center justify-center rounded-[28px] border border-line bg-card px-8 py-10 text-center shadow-[0_22px_70px_rgba(0,0,0,0.08)]">
+          <div>
+            <h1 className="text-[28px] font-bold leading-tight tracking-[-0.05em] text-black">
+              No recipes found.
+            </h1>
+            <p className="mt-4 text-[15px] font-medium leading-6 text-black/70">
+              No recipe titles or ingredients match &quot;{query}&quot;. Try a
+              different meal or ingredient.
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="w-full">
+      <RecipesHeader query={query} />
       <div className="mx-auto grid max-w-[820px] grid-cols-1 gap-5 sm:grid-cols-2">
-        {userRecipes.map((recipe) => (
+        {visibleRecipes.map((recipe) => (
           <article
             key={recipe.id}
             className="grid min-h-32 grid-cols-1 gap-5 rounded-[22px] border border-line bg-card p-5 shadow-[0_18px_50px_rgba(0,0,0,0.07)] sm:grid-cols-[1fr_132px] sm:items-center"
